@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="32sp"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:text="Chỉnh sửa \nthông tin nhân sự"
+        android:padding="16dp"/>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TableRow>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:paddingTop="8dp"
+                android:paddingLeft="8dp"
+                android:text="Họ tên"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="20"
+                android:id="@+id/nameEditLayout"
+                android:paddingBottom="16dp"
+                android:inputType="textCapWords"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:paddingTop="8dp"
+                android:paddingLeft="8dp"
+                android:text="Tuổi"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="20"
+                android:id="@+id/ageEditLayout"
+                android:paddingBottom="16dp"
+                android:inputType="number"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:paddingTop="8dp"
+                android:paddingLeft="8dp"
+                android:text="Địa chỉ"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="20"
+                android:id="@+id/addressEditLayout"
+                android:paddingBottom="16dp"
+                android:inputType="textCapWords"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:paddingTop="8dp"
+                android:paddingLeft="8dp"
+                android:text="Số điện thoại"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="20"
+                android:id="@+id/phonenumberEditLayout"
+                android:paddingBottom="16dp"
+                android:inputType="number"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:paddingTop="8dp"
+                android:paddingLeft="8dp"
+                android:text="Email"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="20"
+                android:id="@+id/emailEditLayout"
+                android:paddingBottom="16dp"
+                android:inputType="textEmailAddress"/>
+        </TableRow>
+    </TableLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/updateRow"
+            android:onClick="editRowButton"
+            android:layout_weight="1"
+            android:text="Chấp nhận"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/backButton"
+            android:onClick="backButton"
+            android:layout_weight="1"
+            android:text="Quay lại"/>
+    </LinearLayout>
+
+</LinearLayout>
+</ScrollView>
