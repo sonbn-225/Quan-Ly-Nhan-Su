@@ -30,8 +30,7 @@
             android:layout_below="@id/mainTitle"
             android:fillViewport="true">
             <ListView
-                android:id="@+id/list"
-                android:layout_below="@id/mainTitle"
+                android:id="@+id/main_list_view"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:divider="#b5b5b5"
