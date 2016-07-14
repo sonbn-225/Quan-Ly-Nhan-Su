@@ -1,20 +1,21 @@
 package xyz.sonbn.quanlynhansu;
 
 /**
- * Created by SonBN on 7/13/2016.
+ * Created by SonBN on 7/14/2016.
  */
-public class Personnel {
+public class NhanSu {
     private int id;
-    private String name, age, address, phone, email;
-    public Personnel(){}
+    private String name, age, address, phone, email, image;
 
-    public Personnel(String name,String age, String address, String phonenumber, String email) {
-        super();
+    public NhanSu(){}
+
+    public NhanSu(String name, String age, String address, String phone, String email, String image){
         this.name = name;
         this.age = age;
         this.address = address;
-        this.phone = phonenumber;
+        this.phone = phone;
         this.email = email;
+        this.image = image;
     }
 
     //Ham voi id
@@ -65,5 +66,12 @@ public class Personnel {
         this.email = email;
     }
 
-}
+    //Ham voi Image
+    public String getImage() {
+        return image;
+    }
 
+    public void setImage(String image){
+        this.image = image;
+    }
+}

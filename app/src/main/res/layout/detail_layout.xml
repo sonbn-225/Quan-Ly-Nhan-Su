@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="xyz.sonbn.quanlynhansu.MainActivity">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +25,7 @@
             <ImageView
                 android:layout_width="120dp"
                 android:layout_height="120dp"
+                android:id="@+id/imageDetail"
                 android:src="@drawable/chopper"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
@@ -85,14 +88,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editButton"
-            android:onClick="editButton"
+            android:onClick="btnEdit"
             android:layout_weight="1"
             android:text="Sửa"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/deleteButton"
-            android:onClick="deleteButton"
+            android:onClick="btnDelete"
             android:layout_weight="1"
             android:text="Xóa"/>
         <Button
@@ -101,7 +104,7 @@
             android:id="@+id/backButton"
             android:layout_weight="1"
             android:text="Quay lại"
-            android:onClick="backButton"/>
+            android:onClick="btnBackOnClick"/>
     </LinearLayout>
 
 </LinearLayout>
