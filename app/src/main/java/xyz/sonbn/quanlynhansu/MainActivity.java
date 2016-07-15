@@ -173,9 +173,6 @@ public class MainActivity extends AppCompatActivity {
 
                 NhanSu nhanSu = (NhanSu) listView.getItemAtPosition(position);
                 nhanSuToEdit = nhanSu;
-                /*Intent intent = new Intent(getBaseContext(), Display.class);
-                intent.putExtra("NHANSU", (new Gson()).toJson(nhanSu));
-                startActivity(intent);*/
 
                 setContentView(R.layout.detail_layout);
 
@@ -290,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
         EditText addressDetail = (EditText) findViewById(R.id.addressEditLayout);
         EditText phoneDetail = (EditText) findViewById(R.id.phonenumberEditLayout);
         EditText emailDetail = (EditText) findViewById(R.id.emailEditLayout);
-        ImageView imageDetail = (ImageView) findViewById(R.id.imageEditLayout);
+        ImageView imageDetail = (ImageView) findViewById(R.id.imageEdit);
 
         nameDetail.setText(nhanSuToEdit.getName());
         ageDetail.setText(nhanSuToEdit.getAge());
