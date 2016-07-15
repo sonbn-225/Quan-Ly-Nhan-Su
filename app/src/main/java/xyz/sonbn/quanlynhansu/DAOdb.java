@@ -81,24 +81,72 @@ public class DAOdb {
         return NhanSu;
     }
 
-    //Get column name
-    public String[] getAllName() {
-        int i = 0;
-
+    //Get all data
+    public List<NhanSu> getAllSortByNameAsc() {
+        List<NhanSu> NhanSu = new ArrayList<NhanSu>();
         Cursor cursor =
                 database.query(DBhelper.TABLE_NAME, null, null, null, null,
-                        null, DBhelper.COLUMN_NAME + " DESC");
-        String[] allName = new String[cursor.getCount()];
-
+                        null, DBhelper.COLUMN_NAME + " ASC");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            NhanSu nhanSu = getRow(cursor);
-            allName[i] = nhanSu.getName();
+            NhanSu NhanViens = getRow(cursor);
+            NhanSu.add(NhanViens);
             cursor.moveToNext();
         }
         cursor.close();
 
-        return allName;
+        return NhanSu;
+    }
+
+    //Get all data
+    public List<NhanSu> getAllSortByNameDesc() {
+        List<NhanSu> NhanSu = new ArrayList<NhanSu>();
+        Cursor cursor =
+                database.query(DBhelper.TABLE_NAME, null, null, null, null,
+                        null, DBhelper.COLUMN_NAME + " DESC");
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            NhanSu NhanViens = getRow(cursor);
+            NhanSu.add(NhanViens);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return NhanSu;
+    }
+
+    //Get all data
+    public List<NhanSu> getAllSortByAgeAsc() {
+        List<NhanSu> NhanSu = new ArrayList<NhanSu>();
+        Cursor cursor =
+                database.query(DBhelper.TABLE_NAME, null, null, null, null,
+                        null, DBhelper.COLUMN_AGE + " ASC");
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            NhanSu NhanViens = getRow(cursor);
+            NhanSu.add(NhanViens);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return NhanSu;
+    }
+
+    //Get all data
+    public List<NhanSu> getAllSortByAgeDesc() {
+        List<NhanSu> NhanSu = new ArrayList<NhanSu>();
+        Cursor cursor =
+                database.query(DBhelper.TABLE_NAME, null, null, null, null,
+                        null, DBhelper.COLUMN_AGE + " DESC");
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            NhanSu NhanViens = getRow(cursor);
+            NhanSu.add(NhanViens);
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return NhanSu;
     }
 
     //Get Column ID
@@ -119,6 +167,26 @@ public class DAOdb {
         cursor.close();
 
         return allAge;
+    }
+
+    /*Get column name
+    public String[] getAllName() {
+        int i = 0;
+
+        Cursor cursor =
+                database.query(DBhelper.TABLE_NAME, null, null, null, null,
+                        null, DBhelper.COLUMN_NAME + " DESC");
+        String[] allName = new String[cursor.getCount()];
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            NhanSu nhanSu = getRow(cursor);
+            allName[i] = nhanSu.getName();
+            cursor.moveToNext();
+        }
+        cursor.close();
+
+        return allName;
     }
 
     //Get Column Age
@@ -179,7 +247,7 @@ public class DAOdb {
         cursor.close();
 
         return allImage;
-    }
+    }*/
 
 
     //Update

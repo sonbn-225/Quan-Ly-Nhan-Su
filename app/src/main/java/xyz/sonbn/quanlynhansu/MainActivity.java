@@ -37,12 +37,14 @@ public class MainActivity extends AppCompatActivity {
     private NhanSu nhanSuToEdit;
     private ImageView imageView;
     private TextView nameView, ageView, addressView, phoneView, emailView;
+    private Bundle ssl;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ssl = savedInstanceState;
         setContentView(R.layout.activity_main);
 
         init();
@@ -79,6 +81,114 @@ public class MainActivity extends AppCompatActivity {
         //        add images from database to images ArrayList
         for (NhanSu mi : daOdb.getAll()) {
             nhanSus.add(mi);
+        }
+    }
+
+    public void sortByNameAsc(){
+        setContentView(R.layout.activity_main);
+        TextView mainTitle = (TextView) findViewById(R.id.mainTitle);
+
+        // Construct the data source
+        nhanSus = new ArrayList();
+        // Create the adapter to convert the array to views
+        displayAdapter = new DisplayAdapter(this, nhanSus);
+        // Attach the adapter to a ListView
+        listView = (ListView) findViewById(R.id.main_list_view);
+        listView.setAdapter(displayAdapter);
+        addItemClickListener(listView);
+        daOdb = new DAOdb(this);
+        //        add images from database to images ArrayList
+        for (NhanSu mi : daOdb.getAllSortByNameAsc()) {
+            nhanSus.add(mi);
+        }
+
+        if (daOdb.getAllId().length == 0){
+            mainTitle.setText("Không có nhân viên nào\n Nhấn dấu '+' để thêm nhân viên");
+            mainTitle.setTextSize(16);
+        }
+        else {
+            mainTitle.setAllCaps(true);
+        }
+    }
+
+    public void sortByNameDesc(){
+        setContentView(R.layout.activity_main);
+        TextView mainTitle = (TextView) findViewById(R.id.mainTitle);
+
+        // Construct the data source
+        nhanSus = new ArrayList();
+        // Create the adapter to convert the array to views
+        displayAdapter = new DisplayAdapter(this, nhanSus);
+        // Attach the adapter to a ListView
+        listView = (ListView) findViewById(R.id.main_list_view);
+        listView.setAdapter(displayAdapter);
+        addItemClickListener(listView);
+        daOdb = new DAOdb(this);
+        //        add images from database to images ArrayList
+        for (NhanSu mi : daOdb.getAllSortByNameDesc()) {
+            nhanSus.add(mi);
+        }
+
+        if (daOdb.getAllId().length == 0){
+            mainTitle.setText("Không có nhân viên nào\n Nhấn dấu '+' để thêm nhân viên");
+            mainTitle.setTextSize(16);
+        }
+        else {
+            mainTitle.setAllCaps(true);
+        }
+    }
+
+    public void sortByAgeAsc(){
+        setContentView(R.layout.activity_main);
+        TextView mainTitle = (TextView) findViewById(R.id.mainTitle);
+
+        // Construct the data source
+        nhanSus = new ArrayList();
+        // Create the adapter to convert the array to views
+        displayAdapter = new DisplayAdapter(this, nhanSus);
+        // Attach the adapter to a ListView
+        listView = (ListView) findViewById(R.id.main_list_view);
+        listView.setAdapter(displayAdapter);
+        addItemClickListener(listView);
+        daOdb = new DAOdb(this);
+        //        add images from database to images ArrayList
+        for (NhanSu mi : daOdb.getAllSortByAgeAsc()) {
+            nhanSus.add(mi);
+        }
+
+        if (daOdb.getAllId().length == 0){
+            mainTitle.setText("Không có nhân viên nào\n Nhấn dấu '+' để thêm nhân viên");
+            mainTitle.setTextSize(16);
+        }
+        else {
+            mainTitle.setAllCaps(true);
+        }
+    }
+
+    public void sortByAgeDesc(){
+        setContentView(R.layout.activity_main);
+        TextView mainTitle = (TextView) findViewById(R.id.mainTitle);
+
+        // Construct the data source
+        nhanSus = new ArrayList();
+        // Create the adapter to convert the array to views
+        displayAdapter = new DisplayAdapter(this, nhanSus);
+        // Attach the adapter to a ListView
+        listView = (ListView) findViewById(R.id.main_list_view);
+        listView.setAdapter(displayAdapter);
+        addItemClickListener(listView);
+        daOdb = new DAOdb(this);
+        //        add images from database to images ArrayList
+        for (NhanSu mi : daOdb.getAllSortByAgeDesc()) {
+            nhanSus.add(mi);
+        }
+
+        if (daOdb.getAllId().length == 0){
+            mainTitle.setText("Không có nhân viên nào\n Nhấn dấu '+' để thêm nhân viên");
+            mainTitle.setTextSize(16);
+        }
+        else {
+            mainTitle.setAllCaps(true);
         }
     }
 
@@ -368,12 +478,23 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                return true;
+            case R.id.action_sort_by_name_asc:
+                sortByNameAsc();
+                return true;
+            case R.id.action_sort_by_name_desc:
+                sortByNameDesc();
+                return true;
+            case R.id.action_sort_by_age_asc:
+                sortByAgeAsc();
+                return true;
+            case R.id.action_sort_by_age_desc:
+                sortByAgeDesc();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }
