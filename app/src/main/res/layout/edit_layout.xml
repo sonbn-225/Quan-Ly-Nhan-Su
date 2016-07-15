@@ -30,7 +30,7 @@
             <ImageView
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:id="@+id/imageEditLayout"
+                android:id="@+id/imageEdit"
                 android:src="@drawable/chopper"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="32dp"
