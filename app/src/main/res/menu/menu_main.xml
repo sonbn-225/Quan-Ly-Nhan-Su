@@ -7,11 +7,11 @@
           android:orderInCategory="100"
           app:showAsAction="never"/>
     <item android:id="@+id/action_sort_by_name"
-        android:title="@string/action_sort_by_name"
+        android:title="@string/action_sort_by_name_asc"
         android:orderInCategory="100"
         app:showAsAction="never"/>
     <item android:id="@+id/action_sort_by_age"
-        android:title="@string/action_sort_by_age"
+        android:title="@string/action_sort_by_age_asc"
         android:orderInCategory="100"
         app:showAsAction="never"/>
 </menu>
