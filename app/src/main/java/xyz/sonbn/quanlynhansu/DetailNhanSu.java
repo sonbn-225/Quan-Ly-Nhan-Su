@@ -44,9 +44,7 @@ public class DetailNhanSu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent dataToEdit = new Intent(DetailNhanSu.this, EditNhanSu.class);
-                Bundle idBundle = new Bundle();
-                idBundle.putInt("DataToEdit", dataBundle.getInt("Id"));
-                dataToEdit.putExtra("DataToEdit", idBundle);
+                dataToEdit.putExtra("DataToEdit", dataBundle);
                 startActivity(dataToEdit);
             }
         });

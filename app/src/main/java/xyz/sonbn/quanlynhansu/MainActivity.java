@@ -189,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
             @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 NhanSu nhanSu = (NhanSu) listView.getItemAtPosition(position);
+
                 Intent dataDetail = new Intent(MainActivity.this, DetailNhanSu.class);
                 Bundle dataDetailBundle = new Bundle();
 

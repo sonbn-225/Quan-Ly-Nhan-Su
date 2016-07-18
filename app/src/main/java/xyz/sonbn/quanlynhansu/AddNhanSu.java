@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class AddNhanSu extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
@@ -137,6 +140,21 @@ public class AddNhanSu extends AppCompatActivity {
 
     public void btnAddRow(View view) {
         NhanSu nhanSu = new NhanSu();
+        if (nameAddLayout.getText().toString().length() == 0) {
+            nameAddLayout.setError("Bắt buộc");
+        }
+
+        if (ageAddLayout.getText().toString().length() == 0) {
+            ageAddLayout.setError("");
+        }
+
+        if (phonenumberAddLayout.getText().toString().length() > 10) {
+            phonenumberAddLayout.setError("");
+        }
+
+        if (!isValidEmail(emailAddLayout.getText().toString())) {
+            emailAddLayout.setError("Sai định dạng email");
+        }
 
         nhanSu.setName(nameAddLayout.getText().toString());
         nhanSu.setAge(ageAddLayout.getText().toString());
@@ -173,5 +191,14 @@ public class AddNhanSu extends AppCompatActivity {
         if (savedInstanceState.containsKey("mCapturedImageURI")) {
             mCapturedImageURI = Uri.parse(savedInstanceState.getString("mCapturedImageURI"));
         }
+    }
+
+    private boolean isValidEmail(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 }

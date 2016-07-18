@@ -28,7 +28,7 @@ public class EditNhanSu extends AppCompatActivity {
         btnEditRow = (Button) findViewById(R.id.btnEditRow);
         btnBack = (Button) findViewById(R.id.btnBack);
 
-        nameEditView = (EditText) findViewById(R.id.nameEdit);
+        nameEditView = (EditText) findViewById(R.id.nameEditText);
         ageEditView = (EditText) findViewById(R.id.ageEditText);
         addressEditView = (EditText) findViewById(R.id.addressEditText);
         phoneEditView = (EditText) findViewById(R.id.phoneEditText);
