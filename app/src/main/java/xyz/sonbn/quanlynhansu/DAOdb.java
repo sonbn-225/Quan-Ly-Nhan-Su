@@ -268,9 +268,9 @@ public class DAOdb {
     }
 
     //Delete
-    public void deleteRow(NhanSu nhanSu){
+    public void deleteRow(int id) {
         database.delete(DBhelper.TABLE_NAME,
                 DBhelper.COLUMN_ID+"= ?",
-                new String[] {String.valueOf(nhanSu.getId())});
+                new String[]{String.valueOf(id)});
     }
 }

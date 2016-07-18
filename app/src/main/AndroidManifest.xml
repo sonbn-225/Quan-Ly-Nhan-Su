@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="xyz.sonbn.quanlynhansu">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +16,22 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".AddNhanSu"
+            android:label="Thêm Nhân Viên"></activity>
+        <activity
+            android:name=".EditNhanSu"
+            android:label="Chỉnh sửa thông tin nhân viên"></activity>
+        <activity
+            android:name=".DetailNhanSu"
+            android:label="Thông tin chi tiết">
+
+        </activity>
+        <activity
+            android:name=".DeleteNhanSu"
+            android:label="Xác nhận xóa">
+
         </activity>
     </application>
 
