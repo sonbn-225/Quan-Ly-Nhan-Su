@@ -24,17 +24,12 @@ public class DeleteNhanSu extends AppCompatActivity {
 
         Intent data = getIntent();
         dataBundle = data.getBundleExtra("DataToDelete");
-        for (String key : dataBundle.keySet()) {
-            Object value = dataBundle.get(key);
-            Log.d("TEST", String.format("%s %s (%s)", key,
-                    value.toString(), value.getClass().getName()));
-        }
+
         btnDeleteRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 daOdb.deleteRow(dataBundle.getInt("Id"));
                 startActivityForResult(new Intent(DeleteNhanSu.this, MainActivity.class), DELETE_REQUEST);
-                startActivity(new Intent(DeleteNhanSu.this, MainActivity.class));
                 finish();
             }
         });

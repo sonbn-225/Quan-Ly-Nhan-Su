@@ -28,8 +28,9 @@ public class AddNhanSu extends AppCompatActivity {
     private EditText addressAddLayout;
     private EditText phonenumberAddLayout;
     private EditText emailAddLayout;
-    private Button btnChooseImage, btnBack;
+    private Button btnBack, btnAddRow;
     private boolean allowSave = true;
+    static final int ADD_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +44,10 @@ public class AddNhanSu extends AppCompatActivity {
         addressAddLayout = (EditText) findViewById(R.id.addressEdit);
         phonenumberAddLayout = (EditText) findViewById(R.id.phonenumberEdit);
         emailAddLayout = (EditText) findViewById(R.id.emailEdit);
-        btnChooseImage = (Button) findViewById(R.id.btnChooseImage);
         btnBack = (Button) findViewById(R.id.btnBack);
+        btnAddRow = (Button) findViewById(R.id.btnAddRow);
 
-        btnChooseImage.setOnClickListener(new View.OnClickListener() {
+        imagePreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Dialog dialog = new Dialog(AddNhanSu.this);
@@ -78,10 +79,49 @@ public class AddNhanSu extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+        btnAddRow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NhanSu nhanSu = new NhanSu();
+                if (nameAddLayout.getText().toString().length() == 0) {
+                    nameAddLayout.setError("Bắt buộc");
+                    allowSave = false;
+                }
+
+                if (ageAddLayout.getText().toString().length() == 0) {
+                    ageAddLayout.setError("");
+                    allowSave = false;
+                }
+
+                if (phonenumberAddLayout.getText().toString().length() > 10) {
+                    phonenumberAddLayout.setError("");
+                    allowSave = false;
+                }
+
+                if (!isValidEmail(emailAddLayout.getText().toString())) {
+                    emailAddLayout.setError("Sai định dạng email");
+                    allowSave = false;
+                }
+
+                if (allowSave){
+                    nhanSu.setName(nameAddLayout.getText().toString());
+                    nhanSu.setAge(ageAddLayout.getText().toString());
+                    nhanSu.setAddress(addressAddLayout.getText().toString());
+                    nhanSu.setPhone(phonenumberAddLayout.getText().toString());
+                    nhanSu.setEmail(emailAddLayout.getText().toString());
+                    nhanSu.setImage(picturePath);
+
+                    daOdb.addRow(nhanSu);
+                    startActivityForResult(new Intent(AddNhanSu.this, MainActivity.class), ADD_REQUEST);
+                    finish();
+                }
+            }
+        });
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(AddNhanSu.this, MainActivity.class));
+                startActivityForResult(new Intent(AddNhanSu.this, MainActivity.class), ADD_REQUEST);
                 finish();
             }
         });
@@ -137,45 +177,6 @@ public class AddNhanSu extends AppCompatActivity {
                 }
         }
         imagePreview.setImageBitmap(ImageResizer.decodeSampledBitmapFromFile(this.picturePath));
-    }
-
-    public void btnAddRow(View view) {
-        NhanSu nhanSu = new NhanSu();
-        if (nameAddLayout.getText().toString().length() == 0) {
-            nameAddLayout.setError("Bắt buộc");
-            allowSave = false;
-        }
-
-        if (ageAddLayout.getText().toString().length() == 0) {
-            ageAddLayout.setError("");
-            allowSave = false;
-        }
-
-        if (phonenumberAddLayout.getText().toString().length() > 10) {
-            phonenumberAddLayout.setError("");
-            allowSave = false;
-        }
-
-        if (!isValidEmail(emailAddLayout.getText().toString())) {
-            emailAddLayout.setError("Sai định dạng email");
-            allowSave = false;
-        }
-
-        if (allowSave){
-            nhanSu.setName(nameAddLayout.getText().toString());
-            nhanSu.setAge(ageAddLayout.getText().toString());
-            nhanSu.setAddress(addressAddLayout.getText().toString());
-            nhanSu.setPhone(phonenumberAddLayout.getText().toString());
-            nhanSu.setEmail(emailAddLayout.getText().toString());
-            nhanSu.setImage(this.picturePath);
-
-            daOdb.addRow(nhanSu);
-            finish();
-        }
-    }
-
-    public String getImagePath() {
-        return this.picturePath;
     }
 
     @Override

@@ -27,7 +27,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        init(0);
+    }
+
+    /**
+     * initialize database
+     */
+    private void init(int i) {
         btnAddRow = (ImageButton) findViewById(R.id.btnAdd);
+        daOdb = new DAOdb(this);
+
         btnAddRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,11 +44,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        init();
-    }
-
-    //Init onCreate
-    private void init(){
         TextView mainTitle = (TextView) findViewById(R.id.mainTitle);
 
         // Construct the data source
@@ -49,133 +53,42 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.main_list_view);
         listView.setAdapter(displayAdapter);
         addItemClickListener(listView);
-        initDB();
 
         if (daOdb.getAllId().length == 0){
             mainTitle.setText("Không có nhân viên nào\n Nhấn dấu '+' để thêm nhân viên");
             mainTitle.setTextSize(16);
+            mainTitle.setPadding(0,8,0,0);
         }
         else {
             mainTitle.setAllCaps(true);
         }
-    }
+        //        add data from database to images ArrayList
+        switch (i){
+            case 1:
+                for (NhanSu mi : daOdb.getAllSortByNameAsc()) {
+                nhanSus.add(mi);
+            }
+                break;
+            case 2:
+                for (NhanSu mi : daOdb.getAllSortByNameDesc()) {
+                    nhanSus.add(mi);
+                }
+                break;
+            case 3:
+                for (NhanSu mi : daOdb.getAllSortByAgeAsc()) {
+                    nhanSus.add(mi);
+                }
+                break;
+            case 4:
+                for (NhanSu mi : daOdb.getAllSortByAgeDesc()) {
+                    nhanSus.add(mi);
+                }
+                break;
+            default:
+                for (NhanSu mi : daOdb.getAll()) {
+                    nhanSus.add(mi);
+                }
 
-    /**
-     * initialize database
-     */
-    private void initDB() {
-        daOdb = new DAOdb(this);
-        //        add images from database to images ArrayList
-        for (NhanSu mi : daOdb.getAll()) {
-            nhanSus.add(mi);
-        }
-    }
-
-    public void sortByNameAsc(){
-        setContentView(R.layout.activity_main);
-        TextView mainTitle = (TextView) findViewById(R.id.mainTitle);
-
-        // Construct the data source
-        nhanSus = new ArrayList();
-        // Create the adapter to convert the array to views
-        displayAdapter = new DisplayAdapter(this, nhanSus);
-        // Attach the adapter to a ListView
-        listView = (ListView) findViewById(R.id.main_list_view);
-        listView.setAdapter(displayAdapter);
-        addItemClickListener(listView);
-        daOdb = new DAOdb(this);
-        //        add images from database to images ArrayList
-        for (NhanSu mi : daOdb.getAllSortByNameAsc()) {
-            nhanSus.add(mi);
-        }
-
-        if (daOdb.getAllId().length == 0){
-            mainTitle.setText("Không có nhân viên nào\n Nhấn dấu '+' để thêm nhân viên");
-            mainTitle.setTextSize(16);
-        }
-        else {
-            mainTitle.setAllCaps(true);
-        }
-    }
-
-    public void sortByNameDesc(){
-        setContentView(R.layout.activity_main);
-        TextView mainTitle = (TextView) findViewById(R.id.mainTitle);
-
-        // Construct the data source
-        nhanSus = new ArrayList();
-        // Create the adapter to convert the array to views
-        displayAdapter = new DisplayAdapter(this, nhanSus);
-        // Attach the adapter to a ListView
-        listView = (ListView) findViewById(R.id.main_list_view);
-        listView.setAdapter(displayAdapter);
-        addItemClickListener(listView);
-        daOdb = new DAOdb(this);
-        //        add images from database to images ArrayList
-        for (NhanSu mi : daOdb.getAllSortByNameDesc()) {
-            nhanSus.add(mi);
-        }
-
-        if (daOdb.getAllId().length == 0){
-            mainTitle.setText("Không có nhân viên nào\n Nhấn dấu '+' để thêm nhân viên");
-            mainTitle.setTextSize(16);
-        }
-        else {
-            mainTitle.setAllCaps(true);
-        }
-    }
-
-    public void sortByAgeAsc(){
-        setContentView(R.layout.activity_main);
-        TextView mainTitle = (TextView) findViewById(R.id.mainTitle);
-
-        // Construct the data source
-        nhanSus = new ArrayList();
-        // Create the adapter to convert the array to views
-        displayAdapter = new DisplayAdapter(this, nhanSus);
-        // Attach the adapter to a ListView
-        listView = (ListView) findViewById(R.id.main_list_view);
-        listView.setAdapter(displayAdapter);
-        addItemClickListener(listView);
-        daOdb = new DAOdb(this);
-        //        add images from database to images ArrayList
-        for (NhanSu mi : daOdb.getAllSortByAgeAsc()) {
-            nhanSus.add(mi);
-        }
-
-        if (daOdb.getAllId().length == 0){
-            mainTitle.setText("Không có nhân viên nào\n Nhấn dấu '+' để thêm nhân viên");
-            mainTitle.setTextSize(16);
-        }
-        else {
-            mainTitle.setAllCaps(true);
-        }
-    }
-
-    public void sortByAgeDesc(){
-        setContentView(R.layout.activity_main);
-        TextView mainTitle = (TextView) findViewById(R.id.mainTitle);
-
-        // Construct the data source
-        nhanSus = new ArrayList();
-        // Create the adapter to convert the array to views
-        displayAdapter = new DisplayAdapter(this, nhanSus);
-        // Attach the adapter to a ListView
-        listView = (ListView) findViewById(R.id.main_list_view);
-        listView.setAdapter(displayAdapter);
-        addItemClickListener(listView);
-        daOdb = new DAOdb(this);
-        //        add images from database to images ArrayList
-        for (NhanSu mi : daOdb.getAllSortByAgeDesc()) {
-            nhanSus.add(mi);
-        }
-
-        if (daOdb.getAllId().length == 0){
-            mainTitle.setText("Không có nhân viên nào\n Nhấn dấu '+' để thêm nhân viên");
-            mainTitle.setTextSize(16);
-        }
-        else {
-            mainTitle.setAllCaps(true);
         }
     }
 
@@ -204,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 dataDetail.putExtra("Data", dataDetailBundle);
 
                 startActivity(dataDetail);
+                finish();
             }
         });
     }
@@ -230,16 +144,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case R.id.action_sort_by_name_asc:
-                sortByNameAsc();
+                init(1);
                 return true;
             case R.id.action_sort_by_name_desc:
-                sortByNameDesc();
+                init(2);
                 return true;
             case R.id.action_sort_by_age_asc:
-                sortByAgeAsc();
+                init(3);
                 return true;
             case R.id.action_sort_by_age_desc:
-                sortByAgeDesc();
+                init(4);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

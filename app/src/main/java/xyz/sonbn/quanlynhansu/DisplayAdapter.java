@@ -55,9 +55,11 @@ public class DisplayAdapter extends ArrayAdapter<NhanSu> {
         //set phone number text
         viewHolder.phoneView.setText(nhanSu.getPhone());
         // set image icon
-        viewHolder.imageView.setImageBitmap(ThumbnailUtils
-                .extractThumbnail(BitmapFactory.decodeFile(nhanSu.getImage()),
-                        THUMBSIZE, THUMBSIZE));
+        if (nhanSu.getImage() != null){
+            viewHolder.imageView.setImageBitmap(ThumbnailUtils
+                    .extractThumbnail(BitmapFactory.decodeFile(nhanSu.getImage()),
+                            THUMBSIZE, THUMBSIZE));
+        }
 
         // Return the completed view to render on screen
         return convertView;

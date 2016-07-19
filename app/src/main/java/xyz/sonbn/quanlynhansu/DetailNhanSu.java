@@ -26,11 +26,11 @@ public class DetailNhanSu extends AppCompatActivity {
         Intent data = getIntent();
         dataBundle = data.getBundleExtra("Data");
 
-        imageView = (ImageView) findViewById(R.id.imageDetail);
+        imageView = (ImageView) findViewById(R.id.imagePreview);
         nameView = (TextView) findViewById(R.id.nameDetail);
         ageView = (TextView) findViewById(R.id.ageDetail);
         addressView = (TextView) findViewById(R.id.addressDetail);
-        phoneView = (TextView) findViewById(R.id.phonenumberDetail);
+        phoneView = (TextView) findViewById(R.id.phoneDetail);
         emailView = (TextView) findViewById(R.id.emailDetail);
 
         nameView.setText(dataBundle.getString("Name"));
@@ -38,7 +38,9 @@ public class DetailNhanSu extends AppCompatActivity {
         addressView.setText(dataBundle.getString("Address"));
         phoneView.setText(dataBundle.getString("Phone"));
         emailView.setText(dataBundle.getString("Email"));
-        imageView.setImageBitmap(ImageResizer.decodeSampledBitmapFromFile(dataBundle.getString("Image")));
+        if (dataBundle.getString("Image") != null) {
+            imageView.setImageBitmap(ImageResizer.decodeSampledBitmapFromFile(dataBundle.getString("Image")));
+        }
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +48,7 @@ public class DetailNhanSu extends AppCompatActivity {
                 Intent dataToEdit = new Intent(DetailNhanSu.this, EditNhanSu.class);
                 dataToEdit.putExtra("DataToEdit", dataBundle);
                 startActivity(dataToEdit);
+                finish();
             }
         });
         btnDelete.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +59,7 @@ public class DetailNhanSu extends AppCompatActivity {
                 idBundle.putInt("Id", dataBundle.getInt("Id"));
                 dataToDelete.putExtra("DataToDelete", idBundle);
                 startActivity(dataToDelete);
+                finish();
             }
         });
         btnBack.setOnClickListener(new View.OnClickListener() {
