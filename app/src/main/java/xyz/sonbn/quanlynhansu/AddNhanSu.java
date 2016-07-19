@@ -29,7 +29,7 @@ public class AddNhanSu extends AppCompatActivity {
     private EditText phonenumberAddLayout;
     private EditText emailAddLayout;
     private Button btnBack, btnAddRow;
-    private boolean allowSave = true;
+    private boolean allowSave;
     static final int ADD_REQUEST = 1;
 
     @Override
@@ -84,6 +84,7 @@ public class AddNhanSu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 NhanSu nhanSu = new NhanSu();
+                allowSave = true;
                 if (nameAddLayout.getText().toString().length() == 0) {
                     nameAddLayout.setError("Bắt buộc");
                     allowSave = false;

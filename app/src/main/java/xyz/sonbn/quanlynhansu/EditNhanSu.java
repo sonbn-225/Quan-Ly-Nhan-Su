@@ -27,7 +27,7 @@ public class EditNhanSu extends AppCompatActivity {
     private int idToEdit;
     private DAOdb daOdb;
     private Bundle dataBundle;
-    private boolean allowSave = true;
+    private boolean allowSave;
     static final int EDIT_REQUEST = 1;
 
     @Override
@@ -95,6 +95,7 @@ public class EditNhanSu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 NhanSu nhanSu = new NhanSu();
+                allowSave = true;
                 if (nameEditView.getText().toString().length() == 0) {
                     nameEditView.setError("Bắt buộc");
                     allowSave = false;
@@ -113,13 +114,6 @@ public class EditNhanSu extends AppCompatActivity {
                 if (!isValidEmail(emailEditView.getText().toString())) {
                     emailEditView.setError("Sai định dạng email");
                     allowSave = false;
-                }
-
-                if (!(nameEditView.getText().toString().length() == 0) &&
-                        !(ageEditView.getText().toString().length() == 0) &&
-                        !(phoneEditView.getText().toString().length() > 10) &&
-                        (isValidEmail(emailEditView.getText().toString()))) {
-                    allowSave = true;
                 }
 
                 if (allowSave) {
