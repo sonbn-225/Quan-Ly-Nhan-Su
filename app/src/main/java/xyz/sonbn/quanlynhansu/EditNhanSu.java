@@ -16,6 +16,8 @@ public class EditNhanSu extends AppCompatActivity {
     private int idToEdit;
     private AddNhanSu ns;
     private DAOdb daOdb;
+    private Bundle dataBundle;
+    private boolean allowSave = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class EditNhanSu extends AppCompatActivity {
         imagePreview = (ImageView) findViewById(R.id.imagePreview);
 
         Intent data = getIntent();
-        Bundle dataBundle = data.getBundleExtra("DataToEdit");
+        dataBundle = data.getBundleExtra("DataToEdit");
 
         idToEdit = dataBundle.getInt("Id");
         nameEditView.setText(dataBundle.getString("Name"));
@@ -82,18 +84,49 @@ public class EditNhanSu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 NhanSu nhanSu = new NhanSu();
+                if (nameEditView.getText().toString().length() == 0) {
+                    nameEditView.setError("Bắt buộc");
+                    allowSave = false;
+                }
 
-                nhanSu.setId(idToEdit);
-                nhanSu.setName(nameEditView.getText().toString());
-                nhanSu.setAge(ageEditView.getText().toString());
-                nhanSu.setAddress(addressEditView.getText().toString());
-                nhanSu.setPhone(phoneEditView.getText().toString());
-                nhanSu.setEmail(emailEditView.getText().toString());
-                nhanSu.setImage(ns.getImagePath());
+                if (ageEditView.getText().toString().length() == 0) {
+                    ageEditView.setError("");
+                    allowSave = false;
+                }
 
-                daOdb.updateRow(nhanSu);
-                startActivity(new Intent(EditNhanSu.this, MainActivity.class));
-                finish();
+                if (phoneEditView.getText().toString().length() > 10) {
+                    phoneEditView.setError("");
+                    allowSave = false;
+                }
+
+                if (!ns.isValidEmail(emailEditView.getText().toString())) {
+                    emailEditView.setError("Sai định dạng email");
+                    allowSave = false;
+                }
+
+                if (!(nameEditView.getText().toString().length() == 0) &&
+                        !(ageEditView.getText().toString().length() == 0) &&
+                        !(phoneEditView.getText().toString().length() > 10) &&
+                        (ns.isValidEmail(emailEditView.getText().toString()))) {
+                    allowSave = true;
+                }
+
+                if (allowSave){
+                    nhanSu.setId(idToEdit);
+                    nhanSu.setName(nameEditView.getText().toString());
+                    nhanSu.setAge(ageEditView.getText().toString());
+                    nhanSu.setAddress(addressEditView.getText().toString());
+                    nhanSu.setPhone(phoneEditView.getText().toString());
+                    nhanSu.setEmail(emailEditView.getText().toString());
+                    if (ns.getImagePath() == null){
+                        nhanSu.setImage(dataBundle.getString("Image"));
+                    } else {
+                        nhanSu.setImage(ns.getImagePath());
+                    }
+
+                    daOdb.updateRow(nhanSu);
+                    finish();
+                }
             }
         });
         btnBack.setOnClickListener(new View.OnClickListener() {

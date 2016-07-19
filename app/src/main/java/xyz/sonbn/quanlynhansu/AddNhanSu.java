@@ -29,6 +29,7 @@ public class AddNhanSu extends AppCompatActivity {
     private EditText phonenumberAddLayout;
     private EditText emailAddLayout;
     private Button btnChooseImage, btnBack;
+    private boolean allowSave = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,30 +143,35 @@ public class AddNhanSu extends AppCompatActivity {
         NhanSu nhanSu = new NhanSu();
         if (nameAddLayout.getText().toString().length() == 0) {
             nameAddLayout.setError("Bắt buộc");
+            allowSave = false;
         }
 
         if (ageAddLayout.getText().toString().length() == 0) {
             ageAddLayout.setError("");
+            allowSave = false;
         }
 
         if (phonenumberAddLayout.getText().toString().length() > 10) {
             phonenumberAddLayout.setError("");
+            allowSave = false;
         }
 
         if (!isValidEmail(emailAddLayout.getText().toString())) {
             emailAddLayout.setError("Sai định dạng email");
+            allowSave = false;
         }
 
-        nhanSu.setName(nameAddLayout.getText().toString());
-        nhanSu.setAge(ageAddLayout.getText().toString());
-        nhanSu.setAddress(addressAddLayout.getText().toString());
-        nhanSu.setPhone(phonenumberAddLayout.getText().toString());
-        nhanSu.setEmail(emailAddLayout.getText().toString());
-        nhanSu.setImage(this.picturePath);
+        if (allowSave){
+            nhanSu.setName(nameAddLayout.getText().toString());
+            nhanSu.setAge(ageAddLayout.getText().toString());
+            nhanSu.setAddress(addressAddLayout.getText().toString());
+            nhanSu.setPhone(phonenumberAddLayout.getText().toString());
+            nhanSu.setEmail(emailAddLayout.getText().toString());
+            nhanSu.setImage(this.picturePath);
 
-        daOdb.addRow(nhanSu);
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+            daOdb.addRow(nhanSu);
+            finish();
+        }
     }
 
     public String getImagePath() {
@@ -193,7 +199,7 @@ public class AddNhanSu extends AppCompatActivity {
         }
     }
 
-    private boolean isValidEmail(String email) {
+    public boolean isValidEmail(String email) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 

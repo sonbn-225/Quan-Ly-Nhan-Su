@@ -11,6 +11,7 @@ public class DeleteNhanSu extends AppCompatActivity {
     private Button btnDeleteRow, btnBack;
     private Bundle dataBundle;
     private DAOdb daOdb;
+    static final int DELETE_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class DeleteNhanSu extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 daOdb.deleteRow(dataBundle.getInt("Id"));
+                startActivityForResult(new Intent(DeleteNhanSu.this, MainActivity.class), DELETE_REQUEST);
                 startActivity(new Intent(DeleteNhanSu.this, MainActivity.class));
                 finish();
             }
