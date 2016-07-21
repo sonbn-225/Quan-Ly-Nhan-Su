@@ -1,8 +1,11 @@
 package xyz.sonbn.quanlynhansu;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -56,12 +60,33 @@ public class DisplayAdapter extends ArrayAdapter<NhanSu> {
         viewHolder.phoneView.setText(nhanSu.getPhone());
         // set image icon
         if (nhanSu.getImage() != null){
-            viewHolder.imageView.setImageBitmap(ThumbnailUtils
-                    .extractThumbnail(BitmapFactory.decodeFile(nhanSu.getImage()),
-                            THUMBSIZE, THUMBSIZE));
+            new ImageDownloaderTask(viewHolder.imageView).execute(nhanSu.getImage());
         }
 
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    private class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
+        private final WeakReference<ImageView> imageViewReference;
+
+        public ImageDownloaderTask(ImageView imageView) {
+            imageViewReference = new WeakReference<ImageView>(imageView);
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            return ThumbnailUtils
+                    .extractThumbnail(BitmapFactory.decodeFile(params[0]),
+                            THUMBSIZE, THUMBSIZE);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            ImageView imageView = imageViewReference.get();
+            if (bitmap == null){
+                imageView.setImageResource(R.drawable.chopper);
+            } else imageView.setImageBitmap(bitmap);
+        }
     }
 }
