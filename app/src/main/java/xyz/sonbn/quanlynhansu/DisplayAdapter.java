@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 public class DisplayAdapter extends ArrayAdapter<NhanSu> {
 
     private final int THUMBSIZE = 96;
+    private Context mContext;
 
     private static class ViewHolder {
         ImageView imageView;
@@ -29,6 +32,7 @@ public class DisplayAdapter extends ArrayAdapter<NhanSu> {
     }
     public DisplayAdapter(Context context, ArrayList<NhanSu> nhansu) {
         super(context, 0, nhansu);
+        mContext = context;
     }
 
     @Override
@@ -59,9 +63,11 @@ public class DisplayAdapter extends ArrayAdapter<NhanSu> {
         //set phone number text
         viewHolder.phoneView.setText(nhanSu.getPhone());
         // set image icon
-        if (nhanSu.getImage() != null){
+        /*if (nhanSu.getImage() != null){
             new ImageDownloaderTask(viewHolder.imageView).execute(nhanSu.getImage());
-        }
+        }*/
+
+        Glide.with(mContext).load(nhanSu.getImage()).into(viewHolder.imageView);
 
         // Return the completed view to render on screen
         return convertView;
