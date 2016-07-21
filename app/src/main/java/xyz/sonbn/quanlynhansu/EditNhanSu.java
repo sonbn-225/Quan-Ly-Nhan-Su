@@ -13,13 +13,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EditNhanSu extends AppCompatActivity {
-    private Button btnEditRow, btnBack;
+    static final int EDIT_REQUEST = 1;
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
+    private Button btnEditRow, btnBack;
     private String picturePath;
     private Uri mCapturedImageURI;
     private ImageView imagePreview;
@@ -28,7 +31,6 @@ public class EditNhanSu extends AppCompatActivity {
     private DAOdb daOdb;
     private Bundle dataBundle;
     private boolean allowSave;
-    static final int EDIT_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,7 @@ public class EditNhanSu extends AppCompatActivity {
         phoneEditView.setText(dataBundle.getString("Phone"));
         emailEditView.setText(dataBundle.getString("Email"));
         if (dataBundle.getString("Image") != null) {
-            imagePreview.setImageBitmap(ImageResizer.decodeSampledBitmapFromFile(dataBundle.getString("Image")));
+            Glide.with(this).load(dataBundle.getString("Image")).into(imagePreview);
         }
 
         imagePreview.setOnClickListener(new View.OnClickListener() {

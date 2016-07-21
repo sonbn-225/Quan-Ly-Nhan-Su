@@ -1,23 +1,33 @@
 package xyz.sonbn.quanlynhansu;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 public class DetailNhanSu extends AppCompatActivity {
+    static final int DELETE_REQUEST = 1;
+    final Context context = this;
     private Button btnEdit, btnDelete, btnBack;
     private ImageView imageView;
     private TextView nameView, ageView, addressView, phoneView, emailView;
     private Bundle dataBundle;
+    private DAOdb daOdb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_nhan_su);
+        daOdb = new DAOdb(this);
 
         btnEdit = (Button) findViewById(R.id.btnEdit);
         btnDelete = (Button) findViewById(R.id.btnDelete);
@@ -39,7 +49,7 @@ public class DetailNhanSu extends AppCompatActivity {
         phoneView.setText(dataBundle.getString("Phone"));
         emailView.setText(dataBundle.getString("Email"));
         if (dataBundle.getString("Image") != null) {
-            imageView.setImageBitmap(ImageResizer.decodeSampledBitmapFromFile(dataBundle.getString("Image")));
+            Glide.with(this).load(dataBundle.getString("Image")).into(imageView);
         }
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
@@ -54,12 +64,28 @@ public class DetailNhanSu extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent dataToDelete = new Intent(DetailNhanSu.this, DeleteNhanSu.class);
-                Bundle idBundle = new Bundle();
-                idBundle.putInt("Id", dataBundle.getInt("Id"));
-                dataToDelete.putExtra("DataToDelete", idBundle);
-                startActivity(dataToDelete);
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Bạn có chắc muốn xóa người này?");
+                Log.d("TEST", "TEST");
+
+                builder.setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        daOdb.deleteRow(dataBundle.getInt("Id"));
+                        startActivityForResult(new Intent(DetailNhanSu.this, MainActivity.class), DELETE_REQUEST);
+                        finish();
+                    }
+                });
+
+                builder.setNegativeButton("Quay lại", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
         btnBack.setOnClickListener(new View.OnClickListener() {

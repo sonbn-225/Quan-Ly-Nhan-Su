@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.main_list_view);
         listView.setAdapter(displayAdapter);
         addItemClickListener(listView);
+        addItemLongClickListener(listView);
 
         if (daOdb.getAllId().length == 0){
             mainTitle.setText("Không có nhân viên nào\n Nhấn dấu '+' để thêm nhân viên");
@@ -117,7 +118,31 @@ public class MainActivity extends AppCompatActivity {
                 dataDetail.putExtra("Data", dataDetailBundle);
 
                 startActivity(dataDetail);
-                finish();
+            }
+        });
+    }
+
+    private void addItemLongClickListener(final ListView listView) {
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                NhanSu nhanSu = (NhanSu) listView.getItemAtPosition(position);
+
+                Intent dataToEdit = new Intent(MainActivity.this, EditNhanSu.class);
+                Bundle dataEditBundle = new Bundle();
+
+                dataEditBundle.putInt("Id", nhanSu.getId());
+                dataEditBundle.putString("Name", nhanSu.getName());
+                dataEditBundle.putString("Age", nhanSu.getAge());
+                dataEditBundle.putString("Address", nhanSu.getAddress());
+                dataEditBundle.putString("Phone", nhanSu.getPhone());
+                dataEditBundle.putString("Email", nhanSu.getEmail());
+                dataEditBundle.putString("Image", nhanSu.getImage());
+
+                dataToEdit.putExtra("DataToEdit", dataEditBundle);
+
+                startActivity(dataToEdit);
+                return true;
             }
         });
     }
