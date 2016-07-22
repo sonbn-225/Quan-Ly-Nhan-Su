@@ -76,12 +76,12 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case 3:
-                for (NhanSu mi : daOdb.getAllSortByAgeAsc()) {
+                for (NhanSu mi : daOdb.getAllSortByBirthdayAsc()) {
                     nhanSus.add(mi);
                 }
                 break;
             case 4:
-                for (NhanSu mi : daOdb.getAllSortByAgeDesc()) {
+                for (NhanSu mi : daOdb.getAllSortByBirthdayDesc()) {
                     nhanSus.add(mi);
                 }
                 break;
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
                 dataDetailBundle.putInt("Id", nhanSu.getId());
                 dataDetailBundle.putString("Name", nhanSu.getName());
-                dataDetailBundle.putString("Age", nhanSu.getAge());
+                dataDetailBundle.putString("Birthday", nhanSu.getBirthday());
                 dataDetailBundle.putString("Address", nhanSu.getAddress());
                 dataDetailBundle.putString("Phone", nhanSu.getPhone());
                 dataDetailBundle.putString("Email", nhanSu.getEmail());
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
                 dataEditBundle.putInt("Id", nhanSu.getId());
                 dataEditBundle.putString("Name", nhanSu.getName());
-                dataEditBundle.putString("Age", nhanSu.getAge());
+                dataEditBundle.putString("Birthday", nhanSu.getBirthday());
                 dataEditBundle.putString("Address", nhanSu.getAddress());
                 dataEditBundle.putString("Phone", nhanSu.getPhone());
                 dataEditBundle.putString("Email", nhanSu.getEmail());

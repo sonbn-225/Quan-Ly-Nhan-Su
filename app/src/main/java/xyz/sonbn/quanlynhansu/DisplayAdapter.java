@@ -23,12 +23,11 @@ import java.util.ArrayList;
  */
 public class DisplayAdapter extends ArrayAdapter<NhanSu> {
 
-    private final int THUMBSIZE = 96;
     private Context mContext;
 
     private static class ViewHolder {
         ImageView imageView;
-        TextView nameView, ageView, phoneView;
+        TextView nameView, birthdayView, phoneView, emailView;
     }
     public DisplayAdapter(Context context, ArrayList<NhanSu> nhansu) {
         super(context, 0, nhansu);
@@ -45,8 +44,9 @@ public class DisplayAdapter extends ArrayAdapter<NhanSu> {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row, parent, false);
             viewHolder.nameView = (TextView) convertView.findViewById(R.id.nameMainLayout);
-            viewHolder.ageView = (TextView) convertView.findViewById(R.id.ageMainLayout);
+            viewHolder.birthdayView = (TextView) convertView.findViewById(R.id.birthdayMainLayout);
             viewHolder.phoneView = (TextView) convertView.findViewById(R.id.phonenumberMainLayout);
+            viewHolder.emailView = (TextView) convertView.findViewById(R.id.emailMainLayout);
 
             viewHolder.imageView = (ImageView) convertView.findViewById(R.id.list_image);
             convertView.setTag(viewHolder);
@@ -59,40 +59,22 @@ public class DisplayAdapter extends ArrayAdapter<NhanSu> {
         // set name text
         viewHolder.nameView.setText(nhanSu.getName());
         //set age text
-        viewHolder.ageView.setText(nhanSu.getAge());
+        viewHolder.birthdayView.setText(nhanSu.getBirthday());
         //set phone number text
-        viewHolder.phoneView.setText(nhanSu.getPhone());
+        if (nhanSu.getPhone().length() == 0) {
+            viewHolder.emailView.setText(nhanSu.getEmail());
+            viewHolder.phoneView.setVisibility(View.GONE);
+        } else {
+            viewHolder.phoneView.setText(nhanSu.getPhone());
+            viewHolder.emailView.setVisibility(View.GONE);
+        }
         // set image icon
-        /*if (nhanSu.getImage() != null){
-            new ImageDownloaderTask(viewHolder.imageView).execute(nhanSu.getImage());
-        }*/
+        if (nhanSu.getImage() != null){
+            Glide.with(mContext).load(nhanSu.getImage()).into(viewHolder.imageView);
+        }
 
-        Glide.with(mContext).load(nhanSu.getImage()).into(viewHolder.imageView);
 
         // Return the completed view to render on screen
         return convertView;
-    }
-
-    private class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
-        private final WeakReference<ImageView> imageViewReference;
-
-        public ImageDownloaderTask(ImageView imageView) {
-            imageViewReference = new WeakReference<ImageView>(imageView);
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            return ThumbnailUtils
-                    .extractThumbnail(BitmapFactory.decodeFile(params[0]),
-                            THUMBSIZE, THUMBSIZE);
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            ImageView imageView = imageViewReference.get();
-            if (bitmap == null){
-                imageView.setImageResource(R.drawable.chopper);
-            } else imageView.setImageBitmap(bitmap);
-        }
     }
 }

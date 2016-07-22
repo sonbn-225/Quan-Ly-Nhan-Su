@@ -5,13 +5,13 @@ package xyz.sonbn.quanlynhansu;
  */
 public class NhanSu {
     private int id;
-    private String name, age, address, phone, email, image;
+    private String name, birthday, address, phone, email, image;
 
     public NhanSu(){}
 
-    public NhanSu(String name, String age, String address, String phone, String email, String image){
+    public NhanSu(String name, String birthday, String address, String phone, String email, String image){
         this.name = name;
-        this.age = age;
+        this.birthday = birthday;
         this.address = address;
         this.phone = phone;
         this.email = email;
@@ -35,11 +35,11 @@ public class NhanSu {
     }
 
     //Ham voi Age
-    public String getAge() {
-        return age;
+    public String getBirthday() {
+        return birthday;
     }
-    public void setAge(String age) {
-        this.age = age;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     //Ham voi Address

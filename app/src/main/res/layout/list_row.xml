@@ -38,9 +38,9 @@
         android:textSize="15dip"
         android:textStyle="bold"/>
 
-    <!-- Tuổi -->
+    <!-- Ngày sinh -->
     <TextView
-        android:id="@+id/ageMainLayout"
+        android:id="@+id/birthdayMainLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/nameMainLayout"
@@ -56,12 +56,25 @@
         android:id="@+id/phonenumberMainLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ageMainLayout"
+        android:layout_below="@id/birthdayMainLayout"
         android:layout_marginLeft="5dip"
         android:textColor="#343434"
         android:textSize="10dip"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail"
         android:text="01646740886" />
+
+    <!-- Email  -->
+    <TextView
+        android:id="@+id/emailMainLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/birthdayMainLayout"
+        android:layout_marginLeft="5dip"
+        android:textColor="#343434"
+        android:textSize="10dip"
+        android:layout_marginTop="1dip"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="sonbn.225@gmail.com" />
 
 </RelativeLayout>

@@ -37,7 +37,7 @@ public class DAOdb {
     public void addRow(NhanSu nhanSu) {
         ContentValues cv = new ContentValues();
         cv.put(DBhelper.COLUMN_NAME, nhanSu.getName());
-        cv.put(DBhelper.COLUMN_AGE, nhanSu.getAge());
+        cv.put(DBhelper.COLUMN_BIRTHDAY, nhanSu.getBirthday());
         cv.put(DBhelper.COLUMN_ADDRESS, nhanSu.getAddress());
         cv.put(DBhelper.COLUMN_PHONE, nhanSu.getPhone());
         cv.put(DBhelper.COLUMN_EMAIL, nhanSu.getEmail());
@@ -55,7 +55,7 @@ public class DAOdb {
 
         ns.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(DBhelper.COLUMN_ID))));
         ns.setName(cursor.getString(cursor.getColumnIndex(DBhelper.COLUMN_NAME)));
-        ns.setAge(cursor.getString(cursor.getColumnIndex(DBhelper.COLUMN_AGE)));
+        ns.setBirthday(cursor.getString(cursor.getColumnIndex(DBhelper.COLUMN_BIRTHDAY)));
         ns.setAddress(cursor.getString(cursor.getColumnIndex(DBhelper.COLUMN_ADDRESS)));
         ns.setPhone(cursor.getString(cursor.getColumnIndex(DBhelper.COLUMN_PHONE)));
         ns.setEmail(cursor.getString(cursor.getColumnIndex(DBhelper.COLUMN_EMAIL)));
@@ -116,11 +116,11 @@ public class DAOdb {
     }
 
     //Get all data
-    public List<NhanSu> getAllSortByAgeAsc() {
+    public List<NhanSu> getAllSortByBirthdayAsc() {
         List<NhanSu> NhanSu = new ArrayList<NhanSu>();
         Cursor cursor =
                 database.query(DBhelper.TABLE_NAME, null, null, null, null,
-                        null, DBhelper.COLUMN_AGE + " ASC");
+                        null, DBhelper.COLUMN_BIRTHDAY + " ASC");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             NhanSu NhanViens = getRow(cursor);
@@ -133,11 +133,11 @@ public class DAOdb {
     }
 
     //Get all data
-    public List<NhanSu> getAllSortByAgeDesc() {
+    public List<NhanSu> getAllSortByBirthdayDesc() {
         List<NhanSu> NhanSu = new ArrayList<NhanSu>();
         Cursor cursor =
                 database.query(DBhelper.TABLE_NAME, null, null, null, null,
-                        null, DBhelper.COLUMN_AGE + " DESC");
+                        null, DBhelper.COLUMN_BIRTHDAY + " DESC");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             NhanSu NhanViens = getRow(cursor);
@@ -156,106 +156,25 @@ public class DAOdb {
         Cursor cursor =
                 database.query(DBhelper.TABLE_NAME, null, null, null, null,
                         null, DBhelper.COLUMN_NAME + " DESC");
-        int[] allAge = new int[cursor.getCount()];
+        int[] allId = new int[cursor.getCount()];
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             NhanSu nhanSu = getRow(cursor);
-            allAge[i] = nhanSu.getId();
+            allId[i] = nhanSu.getId();
             cursor.moveToNext();
         }
         cursor.close();
 
-        return allAge;
+        return allId;
     }
-
-    /*Get column name
-    public String[] getAllName() {
-        int i = 0;
-
-        Cursor cursor =
-                database.query(DBhelper.TABLE_NAME, null, null, null, null,
-                        null, DBhelper.COLUMN_NAME + " DESC");
-        String[] allName = new String[cursor.getCount()];
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            NhanSu nhanSu = getRow(cursor);
-            allName[i] = nhanSu.getName();
-            cursor.moveToNext();
-        }
-        cursor.close();
-
-        return allName;
-    }
-
-    //Get Column Age
-    public String[] getAllAge() {
-        int i = 0;
-
-        Cursor cursor =
-                database.query(DBhelper.TABLE_NAME, null, null, null, null,
-                        null, DBhelper.COLUMN_NAME + " DESC");
-        String[] allAge = new String[cursor.getCount()];
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            NhanSu nhanSu = getRow(cursor);
-            allAge[i] = nhanSu.getAge();
-            cursor.moveToNext();
-        }
-        cursor.close();
-
-        return allAge;
-    }
-
-    //Get column phone
-    public String[] getAllPhone() {
-        int i = 0;
-
-        Cursor cursor =
-                database.query(DBhelper.TABLE_NAME, null, null, null, null,
-                        null, DBhelper.COLUMN_NAME + " DESC");
-        String[] allPhone = new String[cursor.getCount()];
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            NhanSu nhanSu = getRow(cursor);
-            allPhone[i] = nhanSu.getPhone();
-            cursor.moveToNext();
-        }
-        cursor.close();
-
-        return allPhone;
-    }
-
-    //Get column Image
-    public String[] getAllImage() {
-        int i = 0;
-
-        Cursor cursor =
-                database.query(DBhelper.TABLE_NAME, null, null, null, null,
-                        null, DBhelper.COLUMN_NAME + " DESC");
-        String[] allImage = new String[cursor.getCount()];
-
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            NhanSu nhanSu = getRow(cursor);
-            allImage[i] = nhanSu.getImage();
-            cursor.moveToNext();
-        }
-        cursor.close();
-
-        return allImage;
-    }*/
-
 
     //Update
     public void updateRow(NhanSu nhanSu){
         ContentValues values = new ContentValues();
 
         values.put(DBhelper.COLUMN_NAME, nhanSu.getName());
-        values.put(DBhelper.COLUMN_AGE, nhanSu.getAge());
+        values.put(DBhelper.COLUMN_BIRTHDAY, nhanSu.getBirthday());
         values.put(DBhelper.COLUMN_ADDRESS, nhanSu.getAddress());
         values.put(DBhelper.COLUMN_PHONE, nhanSu.getPhone());
         values.put(DBhelper.COLUMN_EMAIL, nhanSu.getEmail());

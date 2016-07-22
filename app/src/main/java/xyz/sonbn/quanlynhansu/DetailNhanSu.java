@@ -19,7 +19,7 @@ public class DetailNhanSu extends AppCompatActivity {
     final Context context = this;
     private Button btnEdit, btnDelete, btnBack;
     private ImageView imageView;
-    private TextView nameView, ageView, addressView, phoneView, emailView;
+    private TextView nameView, birthdayView, addressView, phoneView, emailView;
     private Bundle dataBundle;
     private DAOdb daOdb;
 
@@ -38,13 +38,13 @@ public class DetailNhanSu extends AppCompatActivity {
 
         imageView = (ImageView) findViewById(R.id.imagePreview);
         nameView = (TextView) findViewById(R.id.nameDetail);
-        ageView = (TextView) findViewById(R.id.ageDetail);
+        birthdayView = (TextView) findViewById(R.id.birthdayDetail);
         addressView = (TextView) findViewById(R.id.addressDetail);
         phoneView = (TextView) findViewById(R.id.phoneDetail);
         emailView = (TextView) findViewById(R.id.emailDetail);
 
         nameView.setText(dataBundle.getString("Name"));
-        ageView.setText(dataBundle.getString("Age"));
+        birthdayView.setText(dataBundle.getString("Birthday"));
         addressView.setText(dataBundle.getString("Address"));
         phoneView.setText(dataBundle.getString("Phone"));
         emailView.setText(dataBundle.getString("Email"));

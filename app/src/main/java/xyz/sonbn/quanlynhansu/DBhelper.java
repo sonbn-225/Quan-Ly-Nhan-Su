@@ -18,7 +18,7 @@ public class DBhelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "nhansu";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_AGE = "age";
+    public static final String COLUMN_BIRTHDAY = "birthday";
     public static final String COLUMN_ADDRESS = "address";
     public static final String COLUMN_PHONE = "phone";
     public static final String COLUMN_EMAIL = "email";
@@ -28,7 +28,7 @@ public class DBhelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( " +
             COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COLUMN_NAME + TEXT_TYPE + COMMA_SEP +
-            COLUMN_AGE + NUMERIC_TYPE + COMMA_SEP +
+            COLUMN_BIRTHDAY + NUMERIC_TYPE + COMMA_SEP +
             COLUMN_ADDRESS + TEXT_TYPE + COMMA_SEP +
             COLUMN_PHONE + TEXT_TYPE + COMMA_SEP +
             COLUMN_EMAIL + TEXT_TYPE + COMMA_SEP +

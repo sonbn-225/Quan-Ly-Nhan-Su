@@ -63,10 +63,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="Tuổi"
+                    android:text="Ngày sinh"
                     android:textSize="20sp" />
                 <EditText
-                    android:id="@+id/ageEditText"
+                    android:id="@+id/birthdayEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"

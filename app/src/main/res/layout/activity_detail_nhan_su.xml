@@ -52,15 +52,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="Tuổi"
+                android:text="Ngày sinh"
                 android:textSize="20sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:id="@+id/ageDetail"
-                android:text="20"
+                android:id="@+id/birthdayDetail"
+                android:text="22/05/1996"
                 android:textSize="20sp"/>
         </LinearLayout>
 
