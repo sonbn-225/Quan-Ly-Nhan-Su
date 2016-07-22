@@ -1,20 +1,49 @@
 package xyz.sonbn.quanlynhansu;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+
 
 public class AddNhanSu extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 1;
@@ -23,29 +52,104 @@ public class AddNhanSu extends AppCompatActivity {
     private DAOdb daOdb;
     private String picturePath;
     private ImageView imagePreview;
-    private EditText nameAddLayout;
-    private EditText ageAddLayout;
-    private EditText addressAddLayout;
-    private EditText phonenumberAddLayout;
-    private EditText emailAddLayout;
+    private EditText nameAddLayout, birthdayAddLayout, addressAddLayout, phoneAddLayout, emailAddLayout;
     private Button btnBack, btnAddRow;
     private boolean allowSave;
     static final int ADD_REQUEST = 1;
+    private CallbackManager callbackManager;
+    private LoginButton btnLoginFacebook;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_nhan_su);
         daOdb = new DAOdb(this);
+
+        //Facebook
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        setContentView(R.layout.activity_add_nhan_su);
+        btnLoginFacebook = (LoginButton) findViewById(R.id.btnLoginFacebook);
+
+        btnLoginFacebook.setReadPermissions(Arrays.asList("public_profile", "user_friends", "email", "user_birthday", "user_location"));
+        btnLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+                                // Application code
+                                Log.d("tag", object.toString());
+                                picturePath = "https://graph.facebook.com/" + object.optString("id") + "/picture?type=large";
+                                nameAddLayout.setText(object.optString("name"));
+                                Glide.with(AddNhanSu.this)
+                                        .load(picturePath)
+                                        .into(imagePreview);
+                                birthdayAddLayout.setText(convertDate(object.optString("birthday")));
+                                emailAddLayout.setText(object.optString("email"));
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,link,gender,birthday,email");
+                request.setParameters(parameters);
+                request.executeAsync();
+            }
+
+            @Override
+            public void onCancel() {
+                nameAddLayout.setText("Login attempt cancelled.");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                nameAddLayout.setText("Login attempt failed.");
+            }
+        });
 
         imagePreview = (ImageView) findViewById(R.id.imagePreview);
         nameAddLayout = (EditText) findViewById(R.id.nameEdit);
-        ageAddLayout = (EditText) findViewById(R.id.ageEdit);
+        birthdayAddLayout = (EditText) findViewById(R.id.birthdayEdit);
         addressAddLayout = (EditText) findViewById(R.id.addressEdit);
-        phonenumberAddLayout = (EditText) findViewById(R.id.phonenumberEdit);
+        phoneAddLayout = (EditText) findViewById(R.id.phoneEdit);
         emailAddLayout = (EditText) findViewById(R.id.emailEdit);
         btnBack = (Button) findViewById(R.id.btnBack);
         btnAddRow = (Button) findViewById(R.id.btnAddRow);
+
+        final Calendar myCalendar = Calendar.getInstance();
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String myFormat = "dd/MM/yy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+                birthdayAddLayout.setText(sdf.format(myCalendar.getTime()));
+            }
+        };
+
+        birthdayAddLayout.setFocusable(false);
+        birthdayAddLayout.setClickable(true);
+        birthdayAddLayout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(AddNhanSu.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         imagePreview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,13 +194,13 @@ public class AddNhanSu extends AppCompatActivity {
                     allowSave = false;
                 }
 
-                if (ageAddLayout.getText().toString().length() == 0) {
-                    ageAddLayout.setError("");
+                if (birthdayAddLayout.getText().toString().length() == 0) {
+                    birthdayAddLayout.setError("");
                     allowSave = false;
                 }
 
-                if (phonenumberAddLayout.getText().toString().length() > 10) {
-                    phonenumberAddLayout.setError("");
+                if (phoneAddLayout.getText().toString().length() > 10) {
+                    phoneAddLayout.setError("");
                     allowSave = false;
                 }
 
@@ -107,9 +211,9 @@ public class AddNhanSu extends AppCompatActivity {
 
                 if (allowSave){
                     nhanSu.setName(nameAddLayout.getText().toString());
-                    nhanSu.setAge(ageAddLayout.getText().toString());
+                    nhanSu.setBirthday(birthdayAddLayout.getText().toString());
                     nhanSu.setAddress(addressAddLayout.getText().toString());
-                    nhanSu.setPhone(phonenumberAddLayout.getText().toString());
+                    nhanSu.setPhone(phoneAddLayout.getText().toString());
                     nhanSu.setEmail(emailAddLayout.getText().toString());
                     nhanSu.setImage(picturePath);
 
@@ -126,6 +230,10 @@ public class AddNhanSu extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private String convertDate(String s) {
+        return s.substring(3,5) +"/" + s.substring(0,2) + s.substring(5);
     }
 
 
@@ -155,6 +263,7 @@ public class AddNhanSu extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case RESULT_LOAD_IMAGE:
                 if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {

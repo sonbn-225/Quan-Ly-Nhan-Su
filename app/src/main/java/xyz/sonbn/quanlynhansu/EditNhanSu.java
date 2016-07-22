@@ -1,5 +1,6 @@
 package xyz.sonbn.quanlynhansu;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -10,11 +11,15 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,7 +31,7 @@ public class EditNhanSu extends AppCompatActivity {
     private String picturePath;
     private Uri mCapturedImageURI;
     private ImageView imagePreview;
-    private EditText nameEditView, ageEditView, addressEditView, phoneEditView, emailEditView;
+    private EditText nameEditView, birthdayEditView, addressEditView, phoneEditView, emailEditView;
     private int idToEdit;
     private DAOdb daOdb;
     private Bundle dataBundle;
@@ -42,7 +47,7 @@ public class EditNhanSu extends AppCompatActivity {
         btnBack = (Button) findViewById(R.id.btnBack);
 
         nameEditView = (EditText) findViewById(R.id.nameEditText);
-        ageEditView = (EditText) findViewById(R.id.ageEditText);
+        birthdayEditView = (EditText) findViewById(R.id.birthdayEditText);
         addressEditView = (EditText) findViewById(R.id.addressEditText);
         phoneEditView = (EditText) findViewById(R.id.phoneEditText);
         emailEditView = (EditText) findViewById(R.id.emailEditText);
@@ -53,13 +58,44 @@ public class EditNhanSu extends AppCompatActivity {
 
         idToEdit = dataBundle.getInt("Id");
         nameEditView.setText(dataBundle.getString("Name"));
-        ageEditView.setText(dataBundle.getString("Age"));
+        birthdayEditView.setText(dataBundle.getString("Birthday"));
         addressEditView.setText(dataBundle.getString("Address"));
         phoneEditView.setText(dataBundle.getString("Phone"));
         emailEditView.setText(dataBundle.getString("Email"));
         if (dataBundle.getString("Image") != null) {
             Glide.with(this).load(dataBundle.getString("Image")).into(imagePreview);
         }
+
+        final Calendar myCalendar = Calendar.getInstance();
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                String myFormat = "dd/MM/yy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+                birthdayEditView.setText(sdf.format(myCalendar.getTime()));
+            }
+        };
+
+        birthdayEditView.setFocusable(false);
+        birthdayEditView.setClickable(true);
+        birthdayEditView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(EditNhanSu.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         imagePreview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,8 +139,8 @@ public class EditNhanSu extends AppCompatActivity {
                     allowSave = false;
                 }
 
-                if (ageEditView.getText().toString().length() == 0) {
-                    ageEditView.setError("");
+                if (birthdayEditView.getText().toString().length() == 0) {
+                    birthdayEditView.setError("");
                     allowSave = false;
                 }
 
@@ -121,7 +157,7 @@ public class EditNhanSu extends AppCompatActivity {
                 if (allowSave) {
                     nhanSu.setId(idToEdit);
                     nhanSu.setName(nameEditView.getText().toString());
-                    nhanSu.setAge(ageEditView.getText().toString());
+                    nhanSu.setBirthday(birthdayEditView.getText().toString());
                     nhanSu.setAddress(addressEditView.getText().toString());
                     nhanSu.setPhone(phoneEditView.getText().toString());
                     nhanSu.setEmail(emailEditView.getText().toString());
