@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -31,6 +32,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -91,23 +93,24 @@ public class AddNhanSu extends AppCompatActivity {
                                         .load(picturePath)
                                         .into(imagePreview);
                                 birthdayAddLayout.setText(convertDate(object.optString("birthday")));
+                                addressAddLayout.setText(object.optJSONObject("location").optString("name"));
                                 emailAddLayout.setText(object.optString("email"));
                             }
                         });
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,link,gender,birthday,email");
+                parameters.putString("fields", "id,name,link,gender,birthday,email,location");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
 
             @Override
             public void onCancel() {
-                nameAddLayout.setText("Login attempt cancelled.");
+                Toast.makeText(AddNhanSu.this, "Login attempt cancelled.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException error) {
-                nameAddLayout.setText("Login attempt failed.");
+                Toast.makeText(AddNhanSu.this, "Login attempt failed.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -131,7 +134,7 @@ public class AddNhanSu extends AppCompatActivity {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                String myFormat = "dd/MM/yy"; //In which you need put here
+                String myFormat = "dd/MM/yyyy"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
                 birthdayAddLayout.setText(sdf.format(myCalendar.getTime()));
@@ -219,6 +222,7 @@ public class AddNhanSu extends AppCompatActivity {
 
                     daOdb.addRow(nhanSu);
                     startActivityForResult(new Intent(AddNhanSu.this, MainActivity.class), ADD_REQUEST);
+                    LoginManager.getInstance().logOut();
                     finish();
                 }
             }
