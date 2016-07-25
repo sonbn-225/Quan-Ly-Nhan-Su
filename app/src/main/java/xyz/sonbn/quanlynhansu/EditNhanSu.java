@@ -230,7 +230,7 @@ public class EditNhanSu extends AppCompatActivity {
                     cursor.close();
                 }
         }
-        imagePreview.setImageBitmap(ImageResizer.decodeSampledBitmapFromFile(this.picturePath));
+        Glide.with(EditNhanSu.this).load(picturePath).into(imagePreview);
     }
 
     @Override

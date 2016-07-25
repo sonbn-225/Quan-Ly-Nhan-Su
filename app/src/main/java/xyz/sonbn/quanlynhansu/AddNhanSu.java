@@ -281,7 +281,7 @@ public class AddNhanSu extends AppCompatActivity {
                     cursor.close();
                 }
         }
-        imagePreview.setImageBitmap(ImageResizer.decodeSampledBitmapFromFile(this.picturePath));
+        Glide.with(AddNhanSu.this).load(picturePath).into(imagePreview);
     }
 
     @Override
