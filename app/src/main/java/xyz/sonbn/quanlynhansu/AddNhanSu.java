@@ -3,9 +3,14 @@ package xyz.sonbn.quanlynhansu;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +43,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import twitter4j.User;
+
 public class AddNhanSu extends AppCompatActivity {
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
@@ -46,7 +53,7 @@ public class AddNhanSu extends AppCompatActivity {
     private String picturePath;
     private ImageView imagePreview;
     private EditText nameAddLayout, birthdayAddLayout, addressAddLayout, phoneAddLayout, emailAddLayout;
-    private Button btnBack, btnAddRow;
+    private Button btnBack, btnAddRow, btnLoginTwitter;
     private boolean allowSave;
     static final int ADD_REQUEST = 1;
     private CallbackManager callbackManager;
@@ -64,6 +71,17 @@ public class AddNhanSu extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_add_nhan_su);
         btnLoginFacebook = (LoginButton) findViewById(R.id.btnLoginFacebook);
+        btnLoginTwitter = (Button) findViewById(R.id.btnLoginTwitter);
+
+        btnLoginTwitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isConnectingToInternet()) {
+                    new GetTwitterTokenTask(AddNhanSu.this).execute();
+                    Log.i("Activity", "login");
+                }
+            }
+        });
 
         btnLoginFacebook.setReadPermissions(Arrays.asList("public_profile", "user_friends", "email", "user_birthday", "user_location"));
         btnLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -225,6 +243,45 @@ public class AddNhanSu extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public boolean isConnectingToInternet() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Network[] networks = connectivityManager.getAllNetworks();
+            NetworkInfo networkInfo;
+            for (Network mNetwork : networks) {
+                networkInfo = connectivityManager.getNetworkInfo(mNetwork);
+                if (networkInfo.getState().equals(NetworkInfo.State.CONNECTED)) {
+                    return true;
+                }
+            }
+        }else {
+            if (connectivityManager != null) {
+                //noinspection deprecation
+                NetworkInfo[] info = connectivityManager.getAllNetworkInfo();
+                if (info != null) {
+                    for (NetworkInfo anInfo : info) {
+                        if (anInfo.getState() == NetworkInfo.State.CONNECTED) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public void callBackDataFromAsyncTask(User user) {
+        nameAddLayout.setText(user.getName());
+        addressAddLayout.setText(user.getLocation());
+        picturePath = user.getBiggerProfileImageURL();
+
+        //loading User Avatar by Picasso
+        Glide.with(this)
+                .load(picturePath)
+                .into(imagePreview);
+        btnLoginTwitter.setText("Log out!");
     }
 
     private String convertDate(String s) {
